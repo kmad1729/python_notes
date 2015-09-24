@@ -1,3 +1,14 @@
+# copied from http://stackoverflow.com/questions/5955690/using-git-to-manage-virtualenv-state-will-this-cause-problems/6012590#6012590
+# Ignore all the virtualenv stuff except the actual packages
+# themselves
+/bin
+/include
+/lib/python*/*
+!/lib/python*/site-packages
+
+
+#
+#
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -55,3 +66,4 @@ docs/_build/
 
 # PyBuilder
 target/
+
