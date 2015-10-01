@@ -1,0 +1,2116 @@
+Python 2.7.5 (v2.7.5:ab05e7dd2788, May 13 2013, 13:18:45) 
+from dj_static import Cling
+[GCC 4.2.1 (Apple Inc. build 5666) (dot 3)] on darwin
+Type "copyright", "credits" or "license()" for more information.
+>>> 
+
+>>> s = 'hello'
+>>> id(s)
+4319284032
+>>> hex(id(s))
+'0x101730b40'
+>>> 
+>>> t = s[:3]
+>>> s
+'hello'
+>>> t
+'hel'
+>>> hex(id(t))
+'0x1012f8170'
+>>> 
+>>> t = s[:]
+>>> s
+'hello'
+>>> t
+'hello'
+>>> hex(id(t))
+'0x101730b40'
+>>> id(s) == id(t)
+True
+>>> s is t
+True
+>>> 
+>>> id(s) != id(t)
+False
+>>> s is not t
+False
+>>> 
+>>> 
+>>> 
+>>> 
+>>> s[:] is s
+True
+>>> 
+>>> 
+>>> t = s[:3] + s[3:]
+>>> s
+'hello'
+>>> t
+'hello'
+>>> s is t
+False
+>>> # interning
+>>> 
+>>> s
+'hello'
+>>> t
+'hello'
+>>> u = intern(t)
+>>> s is u
+True
+>>> 
+>>> 
+>>> intern_dict = {}
+>>> def myintern(s):
+	if s in intern_dict:
+		return intern_dict[s]
+	intern_dict[s] = s
+	return s
+
+>>> 
+>>> 
+>>> 
+>>> s
+'hello'
+>>> t
+'hello'
+>>> s is t
+False
+>>> 
+>>> u = intern_dict(s)
+
+Traceback (most recent call last):
+  File "<pyshell#52>", line 1, in <module>
+    u = intern_dict(s)
+TypeError: 'dict' object is not callable
+>>> u = intern_dict(s)
+
+Traceback (most recent call last):
+  File "<pyshell#53>", line 1, in <module>
+    u = intern_dict(s)
+TypeError: 'dict' object is not callable
+>>> u = myintern(s)
+>>> u is s
+True
+>>> intern_dict
+{'hello': 'hello'}
+>>> u = myintern(t)
+>>> u is s
+True
+>>> 
+>>> id(t)
+4318042272
+>>> [id(k) for k in intern_dict]
+[4319284032]
+>>> 
+>>> 
+>>> # The real intern() is implemented the same way
+>>> # All string literals such as "hello" and s.hello are interned.
+>>> # String operations don't intern because it would slow them down.
+>>> a = 'hello'
+>>> b = 'hello'
+>>> a is b
+True
+>>> 
+>>> 
+>>> # Enhanced guided discovery
+>>> 
+>>> # Adaptive testing
+>>> 
+>>> 
+>>> 
+>>> s
+'hello'
+>>> s[:] is t
+False
+>>> s[:] is s
+True
+>>> 
+>>> 
+>>> 
+>>> s = [10, 20, 30]
+>>> t = s[:]
+>>> s[:] is s
+False
+>>> 
+>>> 
+>>> 
+>>> s = [10, 20, 30]
+>>> t = s[:]
+>>> 
+>>> s
+[10, 20, 30]
+>>> t
+[10, 20, 30]
+>>> s.append(40)
+>>> t
+[10, 20, 30]
+>>> 
+>>> 
+>>> s = [10, 20, 30, 40, 50]
+>>> s[0:2]
+[10, 20]
+>>> s[0] = 100
+>>> s
+[100, 20, 30, 40, 50]
+>>> 
+>>> 
+>>> s[0:2] = [1000, 2000]
+>>> s
+[1000, 2000, 30, 40, 50]
+>>> s[0:2] = [555]
+>>> s
+[555, 30, 40, 50]
+>>> s[0:2] = []
+>>> s
+[40, 50]
+>>> s[1:1]
+[]
+>>> s[1:1] = [1,2,3,4]
+>>> s
+[40, 1, 2, 3, 4, 50]
+>>> 
+>>> s[:] = []       # replace everything with nothing
+>>> s
+[]
+>>> s = [10, 20, 30, 40, 50]
+>>> del s[:]        # delete everything
+>>> 
+>>> s
+[]
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> s = [10, 20, 30, 40, 50]
+>>> t = s
+>>> 
+>>> s is t
+True
+>>> # Assignments to a variable never copy, they just reference.
+>>> 
+>>> s[0] = 100
+>>> t
+[100, 20, 30, 40, 50]
+>>> 
+>>> s[:] = []
+>>> t
+[]
+>>> 
+>>> 
+>>> s[:] = []
+>>> s = []
+>>> 
+>>> 
+>>> s[:] = []   # Alters the object in-place
+>>> s = []      # Makes a new object
+>>> 
+>>> 
+>>> s[:] = []
+>>> del s[:]
+>>> 
+>>> s = [10, 20, 30]
+>>> s[-1]
+30
+>>> s[len(s) - 1]
+30
+>>> 
+>>> 
+>>> 
+>>> s = 'a
+f'
+SyntaxError: EOL while scanning string literal
+>>> s = 'abcde'
+>>> s[1:4]
+'bcd'
+>>> 
+>>> s[3:3]
+''
+>>> 
+>>> # slicing indicies can be interpreted as slice points
+>>> # negative indicies can be interpreted as adding len(s)
+>>> 
+>>> s = 'abcde'
+>>> s[-2:]
+'de'
+>>> s[len(s) - 2 : len(s)]
+'de'
+>>> 
+>>> 
+>>> 
+>>> s = 'abc'
+>>> i=0; s[:-i]
+''
+>>> i=1; s[:-i]
+'ab'
+>>> i=2; s[:-i]
+'a'
+>>> i=3; s[:-i]
+''
+>>> 
+'
+>>> 
+>>> 
+>>> 
+>>> a = 10
+>>> b = 20
+>>> 
+>>> t = a, b
+>>> 
+>>> t
+(10, 20)
+>>> 
+>>> b, a = t
+>>> 
+>>> b
+10
+>>> a
+20
+>>> 
+>>> 
+>>> a, b = b, a
+>>> 
+>>> a
+10
+>>> b
+20
+>>> 
+>>> a, b = b, a
+>>> b, a = a, b
+>>> 
+>>> 
+>>> 
+>>> # impure function the right
+>>> # repeated variables on the left
+>>> # In both of these cases, the left-to-right ordering matters
+>>> 
+>>> a, a = 10, 20
+>>> 
+>>> a
+20
+>>> 
+>>> a, a = 20, 10
+>>> a
+10
+>>> 
+>>> t = 20, 10
+>>> a = t[0]
+>>> a = t[1]
+>>> 
+>>> 
+>>> s = [10, 20, 30]
+>>> i = 2
+>>> 
+>>> i, s[i] = 1, 555
+>>> s
+[10, 555, 30]
+>>> 
+>>> s = [10, 20, 30]
+>>> i = 2
+>>> s[i], i = 555, 1
+>>> s
+[10, 20, 555]
+>>> # If the order matters, then you probably shouldn't use mulitple assignment (unpacking).
+>>> 
+>>> s[i] = 55
+>>> i = 1
+>>> 
+>>> 
+>>> 
+>>> # pure functions give the same value for the same inputs EVERY time
+>>> 
+>>> pow(2, 5)
+32
+>>> pow(2, 5)
+32
+>>> 
+>>> from random import random
+>>> random()
+0.40219056542198994
+>>> random()
+0.9848921734685007
+>>> 
+>>> import os
+>>> os.listdir('notes')
+
+Traceback (most recent call last):
+  File "<pyshell#246>", line 1, in <module>
+    os.listdir('notes')
+OSError: [Errno 2] No such file or directory: 'notes'
+>>> os.listdir('notes')
+['__init__.py', 'dayfour.log', 'dayone.log', 'daythree.log', 'daytwo.log', 'download.py', 'etag_db.dat', 'etag_db.dir', 'hamlet.txt', 'IntermediatePython.pdf', 'itty.py', 'links.txt', 'lru_cache.py', 'mpl_demo.py', 'pexpect.py', 'PythonAwesome.pdf', 'spelling.py']
+>>> 
+>>> f = open('notes/hamlet.txt')
+>>> f.readline()
+'The Tragedy of Hamlet, Prince of Denmark\r\n'
+>>> f.readline()
+'Shakespeare homepage | Hamlet | Entire play\r\n'
+>>> 
+>>> 
+>>> def f(x):
+	global y
+	y += 1
+	return x + y
+
+>>> y = 10
+>>> 
+>>> f(100)
+111
+>>> f(100)
+112
+>>> 
+>>> y = 10
+>>> 
+>>> a, b = f(100), f(200)
+>>> 
+>>> a
+111
+>>> b
+212
+>>> 
+>>> y = 10
+>>> b, a = f(200), f(100)
+>>> 
+>>> a
+112
+>>> b
+211
+>>> 
+>>> y = 10
+>>> b = f(200)
+>>> a = f(100)
+>>> 
+>>> 
+>>> 
+>>> os = ['mac', 'windows', 'linux', 'solaris']
+>>> users = ['tom', 'sue', 'mary']
+>>> 
+>>> for i in range(len(os)):
+	print os[i]
+
+	
+mac
+windows
+linux
+solaris
+>>> for s in os:
+	print s
+
+	
+mac
+windows
+linux
+solaris
+>>> for i in range(len(os)):
+	print i, '-->', os[i]
+
+	
+0 --> mac
+1 --> windows
+2 --> linux
+3 --> solaris
+>>> for i, s in enumerate(os):
+	print i, '-->', s
+
+	
+0 --> mac
+1 --> windows
+2 --> linux
+3 --> solaris
+>>> 
+>>> 
+>>> for i in range(len(os)-1, -1, -1):
+	print os[i]
+
+	
+solaris
+linux
+windows
+mac
+>>> 
+>>> for s in reversed(os):
+	print s
+
+	
+solaris
+linux
+windows
+mac
+>>> 
+>>> zip(os, users)
+[('mac', 'tom'), ('windows', 'sue'), ('linux', 'mary')]
+>>> 
+>>> 
+>>> for s, n in zip(os, users):
+	print s, '-->', n
+
+	
+mac --> tom
+windows --> sue
+linux --> mary
+>>> 
+>>> 
+>>> minsize = min(len(os), len(users))
+>>> for i in range(minsize):
+	print os[i], '-->', users[i]
+
+	
+mac --> tom
+windows --> sue
+linux --> mary
+>>> 
+
+##################### First Break ##################
+##################################
+>>> # if - else
+>>> # try - else
+>>> # for - else
+>>> # while - else
+>>> 
+>>> 
+>>> lambda x: x*x
+<function <lambda> at 0x101765410>
+>>> ================================ RESTART ================================
+>>> 
+hello
+
+Traceback (most recent call last):
+  File "/Users/raymondhettinger/dropbox/Public/sj62/try_demo.py", line 6, in <module>
+    f(x)
+NameError: name 'x' is not defined
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+goodbye
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+
+Traceback (most recent call last):
+  File "/Users/raymondhettinger/dropbox/Public/sj62/try_demo.py", line 8, in <module>
+    f(10)
+  File "/Users/raymondhettinger/dropbox/Public/sj62/try_demo.py", line 3, in f
+    raise IndexError
+IndexError
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+Caught KeyError
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+Caught IndexError
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+Caught IndexError but not handling it
+
+Traceback (most recent call last):
+  File "/Users/raymondhettinger/dropbox/Public/sj62/try_demo.py", line 8, in <module>
+    f(10)
+  File "/Users/raymondhettinger/dropbox/Public/sj62/try_demo.py", line 3, in f
+    raise IndexError
+IndexError
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+Yippee!
+>>> 
+>>> 
+>>> 
+>>> issubclass(KeyError, Exception)
+True
+>>> issubclass(KeyError, LookupError)
+True
+>>> issubclass(IndexError, LookupError)
+True
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+Yippee!
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+Yippee!
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+done working
+goodbye
+No problems dude
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+done working
+goodbye
+No problems dude
+Done!
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+done working
+goodbye
+
+Traceback (most recent call last):
+  File "/Users/raymondhettinger/dropbox/Public/sj62/try_demo.py", line 18, in <module>
+    raise IndexError
+IndexError
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+done working
+goodbye
+Always and forever
+
+Traceback (most recent call last):
+  File "/Users/raymondhettinger/dropbox/Public/sj62/try_demo.py", line 18, in <module>
+    raise IndexError
+IndexError
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+Yippee!
+Always and forever
+Done!
+>>> class A:
+	pass
+
+######### Second Break ###########
+##################################################
+
+
+
+>>> a = A()
+>>> 
+>>> a
+<__main__.A instance at 0x1016e0098>
+>>> 
+>>> e = KeyError('roger')
+>>> e
+KeyError('roger',)
+>>> e.args
+('roger',)
+>>> e = KeyError('roger', 10)
+>>> e.args
+('roger', 10)
+>>> 
+>>> 
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+Yippee!
+The args are ()
+Always and forever
+Done!
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+Yippee!
+The args are (20,)
+Always and forever
+Done!
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+Yippee!
+The args are (20,)
+Always and forever
+Done!
+>>> raise MyIndexError(20)
+
+Traceback (most recent call last):
+  File "<pyshell#347>", line 1, in <module>
+    raise MyIndexError(20)
+MyIndexError: 20
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+Yippee!
+The args are (20,)
+Always and forever
+Done!
+
+Traceback (most recent call last):
+  File "/Users/raymondhettinger/dropbox/Public/sj62/try_demo.py", line 35, in <module>
+    f(x)
+NameError: name 'x' is not defined
+>>> ================================ RESTART ================================
+>>> 
+hello
+Working
+Yippee!
+The args are (20,)
+Always and forever
+Done!
+Working
+Caught
+Working
+Caught
+>>> 
+>>> 
+>>> issubclass(MyDualException, KeyError)
+True
+>>> issubclass(MyDualException, ValueError)
+True
+>>> 
+>>> 
+>>> 
+>>> 
+>>> def f(x, y):
+	return x + y
+
+>>> 
+>>> f(10, 20)
+30
+>>> f('hello', 'world')
+'helloworld'
+>>> f('hello', 10)
+
+Traceback (most recent call last):
+  File "<pyshell#362>", line 1, in <module>
+    f('hello', 10)
+  File "<pyshell#358>", line 2, in f
+    return x + y
+TypeError: cannot concatenate 'str' and 'int' objects
+>>> 
+>>> 
+>>> 
+>>> class A:
+	def __add__(self, other):
+		raise RuntimeError
+
+	
+>>> f(A(), 'hello')
+
+Traceback (most recent call last):
+  File "<pyshell#370>", line 1, in <module>
+    f(A(), 'hello')
+  File "<pyshell#358>", line 2, in f
+    return x + y
+  File "<pyshell#369>", line 3, in __add__
+    raise RuntimeError
+RuntimeError
+>>> 
+>>> 
+>>> f = open('xyz.pdq')
+
+Traceback (most recent call last):
+  File "<pyshell#373>", line 1, in <module>
+    f = open('xyz.pdq')
+IOError: [Errno 2] No such file or directory: 'xyz.pdq'
+>>> 
+>>> 
+>>> s = 'abc'
+>>> it = iter(s)
+>>> next(s)
+
+Traceback (most recent call last):
+  File "<pyshell#378>", line 1, in <module>
+    next(s)
+TypeError: str object is not an iterator
+>>> next(it)
+'a'
+>>> next(it)
+'b'
+>>> next(it)
+'c'
+>>> next(it)
+
+Traceback (most recent call last):
+  File "<pyshell#382>", line 1, in <module>
+    next(it)
+StopIteration
+>>> 
+>>> 
+>>> 
+>>> 
+>>> import os
+>>> os.remove('tmp.txt')
+>>> os.remove('tmp.txt')
+
+Traceback (most recent call last):
+  File "<pyshell#389>", line 1, in <module>
+    os.remove('tmp.txt')
+OSError: [Errno 2] No such file or directory: 'tmp.txt'
+>>> 
+>>> if os.path.exists('tmp.txt'):
+	os.remove('tmp.txt')
+
+	
+>>> if os.path.exists('tmp.txt'):
+	os.remove('tmp.txt')
+
+	
+>>> 2 < 4
+True
+>>> 2 < 4.0   # cross-type comparisons meaningfully, IF the types have been trained
+True
+>>> 6 < 4.0
+False
+>>> 
+>>> 2 < '4'
+True
+>>> 6 < '4'
+True
+>>> # Default behavior   id(type(x)) < id(type(y))
+>>> 
+>>> type(6)
+<type 'int'>
+>>> type('4')
+<type 'str'>
+>>> id(int) < id(str)
+True
+>>> 2 < '4'
+True
+>>> # Like types are brought together.
+>>> 
+>>> 
+>>> 
+>>> None  # has been trained to be less than EVERYTHING else
+>>> 
+>>> None < 4
+True
+>>> None < float('-inf')
+True
+>>> 
+>>> 
+>>> 
+>>> 
+>>> # Chained comparisons
+>>> 
+>>> x = 5
+>>> 
+>>> 0 <= x or x < 10
+True
+>>> 0 <= x < 10
+True
+>>> 0 <= x < 10 == 5 + 5
+True
+>>> 0 <= x < 10 == 5 + 5 > 4
+True
+>>> 0 <= x and x < 10 and 10 == 5 + 5 and 5 +5 > 4
+True
+>>> 0 < 5 > 1
+True
+>>> 0 <= x < 10
+True
+>>> 0 < 5 > 1
+True
+>>> 0 <5> 1
+True
+>>> 0 < 5 and 5 > 1
+True
+>>> 
+>>> # Complex numbers are not comparable AT all
+>>> 
+>>> 3 + 4j < 10 + 8j
+
+Traceback (most recent call last):
+  File "<pyshell#437>", line 1, in <module>
+    3 + 4j < 10 + 8j
+TypeError: no ordering relation is defined for complex numbers
+>>> abs(3 + 4j) < abs(10 + 8j)
+True
+>>> 
+>>> 
+>>> 'hello' == u'hello'
+True
+>>> 5 == 5.0
+True
+>>> 
+>>> 
+>>> sorted([50, 'hello', [10, 20, 30], u'goodbye', 5.5, True, 'zebra', [10,1,300], (0,0,0), None,
+	(1000, 1000, 1000), {'raymond':
+			     'red'}])
+[None, True, 5.5, 50, {'raymond': 'red'}, [10, 1, 300], [10, 20, 30], u'goodbye', 'hello', 'zebra', (0, 0, 0), (1000, 1000, 1000)]
+>>> 
+>>> 
+>>> 
+>>> # LET'S US EAT  -->  SKEET
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> # Default behavior   id(type(x)) < id(type(y))
+>>> 
+>>> # __cmp__(x, y)   ==>  -1 lt   0 ==   1 gt
+>>> 
+>>> class A:
+	def __init__(self, x):
+		self.x = x
+
+		
+>>> a = A(10)
+>>> b = A(20)
+>>> c = A(0)
+>>> 
+>>> a.x
+10
+>>> b.x
+20
+>>> c.x
+0
+>>> 
+>>> cmp(a, b)
+-1
+>>> cmp(a, c)
+-1
+>>> id(a) < id(b)
+True
+>>> id(a) < id(c)
+True
+>>> 
+>>> sorted([a, b, c])
+[<__main__.A instance at 0x1016eb3b0>, <__main__.A instance at 0x1016ec050>, <__main__.A instance at 0x1016ecb90>]
+>>> map(id, [a, b, c])
+[4318999472, 4319005584, 4319002704]
+>>> 
+>>> 
+>>> class A:
+	def __init__(self, x):
+		self.x = x
+	def __cmp__(self, other):
+		print 'Comparing', self.x, 'to', other.x
+		return cmp(self.x, other.x)
+
+	
+>>> a, b, c = map(A, [10, 20, 0])
+>>> a
+<__main__.A instance at 0x1016ecdd0>
+>>> b
+<__main__.A instance at 0x1016ebf80>
+>>> c
+<__main__.A instance at 0x1016ed878>
+>>> 
+>>> a < b
+Comparing 10 to 20
+True
+>>> a < c
+Comparing 10 to 0
+False
+>>> a < b
+Comparing 10 to 20
+True
+>>> 
+>>> sorted([a, b, c])
+Comparing 20 to 10
+Comparing 0 to 20
+Comparing 0 to 20
+Comparing 0 to 10
+[<__main__.A instance at 0x1016ed878>, <__main__.A instance at 0x1016ecdd0>, <__main__.A instance at 0x1016ebf80>]
+>>> 
+>>> # Rich comparison operators:   <= < == != > >=   __le__ __lt__ __eq__ __ne__ __gt__ __ge__
+>>> 
+>>> # The old __cmp__ returns  -1 lt  0 eq  1 gt
+>>> class A:
+	def __init__(self, x):
+		self.x = x
+	def __lt__(self, other):
+		print 'Comparing', self.x, 'to', other.x
+		return cmp(self.x, other.x)
+
+	
+>>> a, b, c = map(A, [10, 20, 0])
+>>> 
+>>> a < b
+Comparing 10 to 20
+-1
+>>> a > b
+Comparing 20 to 10
+1
+>>> # a < b     a.__lt__(b)    if NotImplement    not b.__lt__(a)
+>>> 
+>>> a <= b
+True
+>>> # For rich comparisons, you must define all comparison operations.
+>>> 
+>>> 
+>>> class A:
+	def __init__(self, x):
+		self.x = x
+	def __lt__(self, other):
+		return 42
+	def __gt__(self, other):
+		return 90
+
+	
+>>> a, b, c = map(A, [10, 20, 0])
+>>> a < b
+42
+>>> a > b
+90
+>>> 
+>>> # a < b    a > b    a==b          a < b and b < c  ==>  a < c
+>>> # Total ordering
+>>> 
+>>> 
+>>> s = {10, 20, 30}
+>>> t = {30, 40, 50}
+>>> 
+>>> s.issubset(t)
+False
+>>> t.issubset(s)
+False
+>>> s == t
+False
+
+>>> s < t
+False
+>>> t > s
+False
+>>> 
+>>> 
+>>> s < t
+False
+>>> s > t
+False
+>>> s == t
+False
+>>> s < t
+False
+>>> sorted([s, t])
+[set([10, 20, 30]), set([40, 50, 30])]
+>>> sorted([t, s])
+[set([40, 50, 30]), set([10, 20, 30])]
+>>> from heapq import *
+>>> 
+>>> s = [10, 0, 50, -20]
+>>> nsmallest(2, s)
+[-20, 0]
+>>> nlargest(2, s)
+[50, 10]
+>>> 
+>>> 
+>>> nsmallest(1, s)[0]
+-20
+>>> min(s)
+-20
+>>> 
+>>> nlargest(1, s)[0]
+50
+>>> max(s)
+50
+>>> 
+>>> sorted(s)[0]
+-20
+>>> sorted(s)[-1]
+50
+>>> 
+>>> 
+>>> sorted(s)
+[-20, 0, 10, 50]
+>>> sorted(s)[0]
+-20
+>>> min(s)
+-20
+>>> 
+>>> sorted(s)[-1]
+50
+>>> max(s)
+50
+>>> 
+>>> 
+>>> sorted(s)
+[-20, 0, 10, 50]
+>>> nsmallest(4, s)
+[-20, 0, 10, 50]
+>>> 
+>>> 
+>>> # 1,000,000
+>>> # min()     --> 1,000,000
+>>> # sorted()  --> 20,000,000
+>>> # nsmallest(100, s) --> 1,010,000
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> s = 'roger david mary raymond matthew'.split()
+>>> s
+['roger', 'david', 'mary', 'raymond', 'matthew']
+>>> 
+>>> map(len, s)
+[5, 5, 4, 7, 7]
+>>> 
+>>> sorted(s, key=len)
+['mary', 'roger', 'david', 'raymond', 'matthew']
+>>> # SELECT name FROM s ORDER BY length(name);
+>>> 
+>>> 
+>>> # callable
+>>> 
+>>> def square(x):
+	return x*x
+
+>>> type(square)
+<type 'function'>
+>>> dir(square)
+['__call__', '__class__', '__closure__', '__code__', '__defaults__', '__delattr__', '__dict__', '__doc__', '__format__', '__get__', '__getattribute__', '__globals__', '__hash__', '__init__', '__module__', '__name__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'func_closure', 'func_code', 'func_defaults', 'func_dict', 'func_doc', 'func_globals', 'func_name']
+>>> 
+>>> square(4)
+16
+>>> square.__call__(4)
+16
+>>> 
+>>> a = A(5)
+>>> A
+<class __main__.A at 0x101763940>
+>>> 
+>>> 
+>>> # There many, many callables in Python.
+>>> # The only thing they in common is __call__.
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> def square(x):
+	return x*x
+
+>>> type(function)
+
+Traceback (most recent call last):
+  File "<pyshell#615>", line 1, in <module>
+    type(function)
+NameError: name 'function' is not defined
+>>> type(square)
+<type 'function'>
+>>> square = lambda x: x*x
+>>> 
+>>> type(square)
+<type 'function'>
+>>> square = lambda x: print x*x
+SyntaxError: invalid syntax
+>>> 
+>>> 
+>>> 
+>>> class Square:
+	def __call__(self, x):
+		return x * x
+
+	
+>>> s = Square()
+>>> s(5)
+25
+>>> 
+>>> t = 'raymond', 'hettinger', 0x31, 'python@rcn.com'
+>>> t[0]
+'raymond'
+>>> t[1]
+'hettinger'
+>>> t[2]
+49
+>>> 
+>>> t = 'raymond', 'hettinger', 0x31, 'python@rcn.com'
+>>> def get_age(t):
+	return t[2]
+
+>>> get_age(t)
+49
+>>> 
+>>> get_age = lambda t: t[2]
+>>> get_age(t)
+49
+>>> 
+>>> from operator import itemgetter
+>>> get_age = itemgetter(2)
+>>> get_age(t)
+49
+>>> 
+>>> 
+>>> class ItemGetter:
+	def __init__(self, index):
+		self.index = index
+	def __call__(self, t):
+		return t[self.index]
+
+	
+>>> get_age = ItemGetter(2)
+>>> 
+>>> get_age(t)
+49
+>>> 
+>>> get_age
+<__main__.ItemGetter instance at 0x1016ed758>
+>>> get_age.index
+2
+>>> 
+>>> itemgetter(2, 1)(t)
+(49, 'hettinger')
+>>> 
+>>> 
+>>> class Dog:
+	def __init__(self, name):
+		self.name = name
+	def bark(self):
+		print 'Woof!  %s is barking' % self.name
+
+		
+>>> d = Dog('Fido')
+>>> e = Dog('Buddy')
+>>> 
+>>> d.bark()
+Woof!  Fido is barking
+>>> e.bark()
+Woof!  Buddy is barking
+>>> 
+>>> 2 + 3 - 1
+4
+>>> 5 - 1
+4
+>>> bm = d.bark
+>>> bm()
+Woof!  Fido is barking
+>>> 
+>>> bm
+<bound method Dog.bark of <__main__.Dog instance at 0x1016eb320>>
+>>> bm.im_self
+<__main__.Dog instance at 0x1016eb320>
+>>> bm.im_func
+<function bark at 0x101765758>
+>>> bm.im_func(bm.self)
+
+Traceback (most recent call last):
+  File "<pyshell#686>", line 1, in <module>
+    bm.im_func(bm.self)
+AttributeError: 'function' object has no attribute 'self'
+>>> bm.im_func(bm.im_self)
+Woof!  Fido is barking
+>>> # Bound method remembers 1) instance im_self and 2) the function im_func
+>>> # when you call a bound method, it relays the call to bm.im_func(bm.im_self)
+>>> 
+>>> d.bark
+<bound method Dog.bark of <__main__.Dog instance at 0x1016eb320>>
+>>> d.bark()
+Woof!  Fido is barking
+>>> class BoundMethod:
+	def __init__(self, inst, func):
+		self.inst = inst
+		self.func = func
+	def __call__(self, *args):
+		return self.func(self.inst, *args)
+
+	
+>>> def meow(self):
+	print 'Meow.  %s is purring' % self.name
+
+	
+>>> bm = BoundMethod(d, meow)
+>>> 
+>>> bm.inst
+<__main__.Dog instance at 0x1016eb320>
+>>> bm.func
+<function meow at 0x1017656e0>
+>>> 
+>>> bm()
+Meow.  Fido is purring
+>>> 
+>>> 
+>>> class Dog:
+	def __init__(self, name):
+		self.name = name
+	def bark(self):
+		print 'Woof!  %s is barking' % self.name
+
+		
+>>> bm = d.bark()
+Woof!  Fido is barking
+>>> bm()
+
+Traceback (most recent call last):
+  File "<pyshell#714>", line 1, in <module>
+    bm()
+TypeError: 'NoneType' object is not callable
+>>> bm is None
+True
+>>> bm = d.bark
+>>> bm()
+Woof!  Fido is barking
+>>> 
+>>> Dog.bark
+<unbound method Dog.bark>
+>>> um = Dog.bark
+>>> um(d)
+
+Traceback (most recent call last):
+  File "<pyshell#721>", line 1, in <module>
+    um(d)
+TypeError: unbound method bark() must be called with Dog instance as first argument (got Dog instance instead)
+>>> class Dog:
+	def __init__(self, name):
+		self.name = name
+	def bark(self):
+		print 'Woof!  %s is barking' % self.name
+
+		
+>>> d = Dog('Fido')
+>>> Dog.bark
+<unbound method Dog.bark>
+>>> Dog.bark(d)
+Woof!  Fido is barking
+>>> 
+>>> 
+>>> 
+>>> class Dog:
+	def __init__(self, name):
+		self.name = name
+	def bark(self):
+		print 'Woof!  %s is barking' % self.name
+
+		
+>>> class ItemGetter:
+	def __init__(self, index):
+		self.index = index
+	def __call__(self, t):
+		return t[self.index]
+
+	
+>>> 
+>>> def f(x):
+	return x*x
+
+>>> g = lambda x: x*x
+>>> h = ItemGetter(2)
+>>> j = d.bark
+>>> k = Dog.bark
+>>> m = Dog
+>>> 
+>>> f(5)
+25
+>>> g(5)
+25
+>>> h([10, 20, 30])
+30
+>>> j()
+Woof!  Fido is barking
+>>> k(d)
+
+Traceback (most recent call last):
+  File "<pyshell#748>", line 1, in <module>
+    k(d)
+TypeError: unbound method bark() must be called with Dog instance as first argument (got Dog instance instead)
+>>> d = Dog('Fido')
+>>> k(d)
+Woof!  Fido is barking
+>>> m('rex')
+<__main__.Dog instance at 0x1016eb1b8>
+>>> 
+>>> 
+>>> map(hex, [10, 20, 30])
+['0xa', '0x14', '0x1e']
+>>> map(f, [10, 20, 30])
+[100, 400, 900]
+>>> map(g, [10, 20, 30])
+[100, 400, 900]
+>>> map(Dog, ['rex', 'rover', 'ranger'])
+[<__main__.Dog instance at 0x1016eb1b8>, <__main__.Dog instance at 0x1016eb248>, <__main__.Dog instance at 0x1016ecd40>]
+>>> 
+>>> 
+>>> s = str('42')
+>>> type(s)
+<type 'str'>
+>>> map(str, ['42', '18', '12'])
+['42', '18', '12']
+>>> map(str, [42, 18, 12])
+['42', '18', '12']
+>>> 
+>>> d.bark
+<bound method Dog.bark of <__main__.Dog instance at 0x1016eed40>>
+>>> 
+>>> s = 'hello'
+>>> s.upper
+<built-in method upper of str object at 0x101730b40>
+>>> s.upper()
+'HELLO'
+>>> bm = s.upper
+>>> bm()
+'HELLO'
+>>> 
+>>> 
+>>> 'hello'.center(40, '=')
+'=================hello=================='
+>>> 
+>>> bm = 'hello'.center
+>>> bm(40, '=')
+'=================hello=================='
+>>> 
+>>> 
+>>> 'hello'.center(40)
+'                 hello                  '
+>>> bm = 'hello'.center
+>>> bm(40)
+'                 hello                  '
+>>> 
+>>> map('hello'.center, [10, 20, 30])
+['  hello   ', '       hello        ', '            hello             ']
+>>> 
+>>> 
+>>> Dog.bark
+<unbound method Dog.bark>
+>>> Dog.bark(d)
+Woof!  Fido is barking
+>>> 
+>>> 
+>>> d, e, f = map(Dog, ['rex', 'rover', 'ranger'])
+>>> map(Dog.bark, [d, e, f])
+Woof!  rex is barking
+Woof!  rover is barking
+Woof!  ranger is barking
+[None, None, None]
+>>> 
+>>> 
+>>> 
+>>> str.upper('hello')
+'HELLO'
+>>> str.upper
+<method 'upper' of 'str' objects>
+>>> Dog.bark
+<unbound method Dog.bark>
+>>> map(Dog.bark, [d, e, f])
+Woof!  rex is barking
+Woof!  rover is barking
+Woof!  ranger is barking
+[None, None, None]
+>>> 
+>>> map(str.upper, ['hello', 'goodbye'])
+['HELLO', 'GOODBYE']
+>>> 
+>>> 
+>>> 
+>>> sorted(['RAYMOND', 'matthew', 'Rachel', 'Martin', 'pENELOPE'])
+['Martin', 'RAYMOND', 'Rachel', 'matthew', 'pENELOPE']
+>>> sorted(['RAYMOND', 'matthew', 'Rachel', 'Martin', 'pENELOPE'], key=len)
+['Rachel', 'Martin', 'RAYMOND', 'matthew', 'pENELOPE']
+>>> sorted(['RAYMOND', 'matthew', 'Rachel', 'Martin', 'pENELOPE'], key=str.lower)
+['Martin', 'matthew', 'pENELOPE', 'Rachel', 'RAYMOND']
+>>> sorted(['RAYMOND', 'matthew', 'Rachel', 'Martin', 'pENELOPE'], key=itemgetter(2))
+['pENELOPE', 'RAYMOND', 'Rachel', 'Martin', 'matthew']
+>>> from operator import itemgetter
+>>> 
+>>> f = itemgetter(2)
+>>> f('Raymond')
+'y'
+>>> map(itemgetter(2), ['RAYMOND', 'matthew', 'Rachel', 'Martin', 'pENELOPE'])
+['Y', 't', 'c', 'r', 'N']
+>>> 
+>>> 
+>>> 
+>>> # There are many callable in Python.   They have __call__.
+>>> # Classes make instances
+>>> # instance dot method   -> bound method
+>>> # class dot method -> unbound method
+>>> # lambda -> function
+>>> # def -> function
+>>> # itemgetter -> function that looks up the n-th item
+>>> # Custom class with your own __call__.
+>>> 
+>>> from functools import partial
+>>> # partial stands for "partial function evaluation"
+>>> 
+>>> def f(x, y):
+	return x + y
+
+>>> # We say "f has an arity of two"
+>>> def g(y):
+	return f(2, y)
+
+>>> g(10)
+12
+>>> g = partial(f, 2)
+>>> g(10)
+12
+>>> 
+>>> 
+>>> pow(2, 5)
+32
+>>> f = partial(pow, 2)
+>>> f(5)
+32
+>>> 
+>>> f = partial(pow)
+>>> f(2, 5)
+32
+>>> f = partial(pow, 2, 5)
+>>> f()
+32
+>>> 
+>>> 
+>>> from random import randrange
+>>> 
+>>> range(2, 20)
+[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+>>> randrange(2, 20)
+3
+>>> randrange(2, 20)
+15
+>>> from functools import partial
+>>> 
+>>> randrange(1, 7)
+5
+>>> roll = partial(randrange, 1, 7)
+>>> roll()
+2
+>>> roll()
+1
+>>> 
+>>> freeze_arguments = partial
+>>> 
+>>> roll = freeze_arguments(randrange, 1, 7)
+>>> rol()
+
+Traceback (most recent call last):
+  File "<pyshell#866>", line 1, in <module>
+    rol()
+NameError: name 'rol' is not defined
+>>> roll()
+2
+>>> f = partial(2)
+
+Traceback (most recent call last):
+  File "<pyshell#868>", line 1, in <module>
+    f = partial(2)
+TypeError: the first argument must be callable
+>>> f = partial(pow, 2)
+>>> f(5)
+32
+>>> pow(2, 5)
+32
+>>> f = lambda x: pow(2, x)
+>>> f(5)
+32
+>>> 
+>>> 
+>>> f = open('notes/hamlet.txt')
+>>> type(f)
+<type 'file'>
+>>> dir(f)
+['__class__', '__delattr__', '__doc__', '__enter__', '__exit__', '__format__', '__getattribute__', '__hash__', '__init__', '__iter__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'close', 'closed', 'encoding', 'errors', 'fileno', 'flush', 'isatty', 'mode', 'name', 'newlines', 'next', 'read', 'readinto', 'readline', 'readlines', 'seek', 'softspace', 'tell', 'truncate', 'write', 'writelines', 'xreadlines']
+>>> f.read                  # d.bark     hello.upper
+<built-in method read of file object at 0x10171a930>
+>>> bm = f.read()
+>>> bm(5)
+
+Traceback (most recent call last):
+  File "<pyshell#881>", line 1, in <module>
+    bm(5)
+TypeError: 'str' object is not callable
+>>> 
+>>> 
+>>> f = open('notes/hamlet.txt')
+>>> bm = f.read
+>>> bm(5)
+'The T'
+>>> bm(5)
+'raged'
+>>> bm(5)
+'y of '
+>>> 
+>>> g = partial(bm, 5)
+>>> g()
+'Hamle'
+>>> g()
+'t, Pr'
+>>> g()
+'ince '
+>>> 
+>>> 
+>>> f = open('notes/hamlet.txt')
+>>> g = partial(f.read, 5)
+>>> 
+>>> g()
+'The T'
+>>> g()
+'raged'
+>>> g()
+'y of '
+>>> 
+>>> f = open('notes/hamlet.txt')
+>>> 
+>>> 
+>>> 
+>>> s = 'cat'
+>>> it = iter(s)
+>>> next(it)
+'c'
+>>> next(it)
+'a'
+>>> next(it)
+'t'
+>>> next(it)
+
+Traceback (most recent call last):
+  File "<pyshell#912>", line 1, in <module>
+    next(it)
+StopIteration
+>>> 
+>>> 
+>>> 
+>>> iter(pow)
+
+Traceback (most recent call last):
+  File "<pyshell#916>", line 1, in <module>
+    iter(pow)
+TypeError: 'builtin_function_or_method' object is not iterable
+>>> iter(randrange)
+
+Traceback (most recent call last):
+  File "<pyshell#917>", line 1, in <module>
+    iter(randrange)
+TypeError: 'instancemethod' object is not iterable
+>>> 
+>>> 
+>>> # functions return values    <--->  iterables can be looped over
+>>> 
+>>> from functools import partial
+>>> from random import randrange
+>>> 
+>>> roll = partial(randrange, 1, 7)
+>>> roll()
+6
+>>> 
+>>> 
+>>> rolls = []
+>>> while True:
+	r = roll()
+	if r == 4:
+		break
+	rolls.append(r)
+
+	
+>>> rolls
+[]
+>>> 
+>>> while True:
+	r = roll()
+	if r == 4:
+		break
+	rolls.append(r)
+
+	
+>>> rolls
+[]
+>>> while True:
+	r = roll()
+	if r == 4:
+		break
+	rolls.append(r)
+
+	
+>>> rolls
+[3, 1, 1, 3, 1, 1, 1, 5, 6, 1, 2, 6, 3, 1, 2, 6, 1]
+>>> 
+>>> # Common pattern:  Call a function over-and-over again until you hit a special value
+>>> #                  indicating you should stop
+>>> # Stop value is called a Sentinel
+>>> # Control-break programming
+>>> 
+>>> f = iter(roll, 4)              # iter(function, sentinel)
+>>> next(f)
+6
+>>> next(f)
+
+Traceback (most recent call last):
+  File "<pyshell#952>", line 1, in <module>
+    next(f)
+StopIteration
+>>> 
+>>> for x in iter(roll, 4):
+	print x
+
+	
+5
+1
+6
+2
+5
+2
+5
+>>> for x in iter(roll, 4):
+	print x
+
+	
+3
+>>> min(iter(roll, 4))
+1
+>>> max(iter(roll, 4))
+6
+>>> max(iter(roll, 4))
+5
+>>> sorted(iter(roll, 4))
+[]
+>>> sorted(iter(roll, 4))
+[1, 1, 1, 3, 3, 5, 5, 6]
+>>> sum(iter(roll, 4))
+20
+>>> 
+>>> from functools import partial
+>>> 
+>>> for block in iter(partial(open('notes/hamlet.txt').read, 50), ''):
+	print block
+
+	
+The Tragedy of Hamlet, Prince of Denmark
+Shakespe
+are homepage | Hamlet | Entire play
+ACT I
+SCENE 
+I. Elsinore. A platform before the castle.
+
+    
+FRANCISCO at his post. Enter to him BERNARDO 
+
+B
+ERNARDO
+
+    Who's there?
+
+FRANCISCO
+
+    Na
+y, answer me: stand, and unfold yourself.
+
+BERNA
+RDO
+
+    Long live the king!
+
+FRANCISCO
+
+   
+ Bernardo?
+
+BERNARDO
+
+    He.
+
+FRANCISCO
+
+
+    You come most carefully upon your hour.
+
+BER
+Traceback (most recent call last):
+  File "<pyshell#970>", line 2, in <module>
+    print block
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/idlelib/PyShell.py", line 1325, in write
+    return self.shell.write(s, self.tags)
+KeyboardInterrupt
+>>> 
+KeyboardInterrupt
+>>> with open('notes/hamlet.txt') as f:
+	for block in iter(partial(f.read, 50), ''):
+		print repr(block)
+
+		
+'The Tragedy of Hamlet, Prince of Denmark\r\nShakespe'
+'are homepage | Hamlet | Entire play\r\nACT I\r\nSCENE '
+'I. Elsinore. A platform before the castle.\r\n\r\n    '
+'FRANCISCO at his post. Enter to him BERNARDO \r\n\r\nB'
+"ERNARDO\r\n\r\n    Who's there?\r\n\r\nFRANCISCO\r\n\r\n    Na"
+'y, answer me: stand, and unfold yourself.\r\n\r\nBERNA'
+'RDO\r\n\r\n    Long live the king!\r\n\r\nFRANCISCO\r\n\r\n   '
+' Bernardo?\r\n\r\nBERNARDO\r\n\r\n    He.\r\n\r\nFRANCISCO\r\n\r\n'
+'    You come most carefully upon your hour.\r\n\r\nBER'
+"NARDO\r\n\r\n    'Tis now struck twelve; get thee to b"
+'ed, Francisco.\r\n\r\nFRANCISCO\r\n\r\n    For this relief'
+" much thanks: 'tis bitter cold,\r\n    And I am sick"
+' at heart.\r\n\r\nBERNARDO\r\n\r\n    Have you had quiet g'
+'uard?\r\n\r\nFRANCISCO\r\n\r\n    Not a mouse stirring.\r\n\r'
+'\nBERNARDO\r\n\r\n    Well, good night.\r\n    If you do '
+'meet Horatio and Marcellus,\r\n    The rivals of my '
+'watch, bid them make haste.\r\n\r\nFRANCISCO\r\n\r\n    I '
+
+
+Traceback (most recent call last):
+  File "<pyshell#974>", line 3, in <module>
+    print repr(block)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/idlelib/PyShell.py", line 1325, in write
+    return self.shell.write(s, self.tags)
+KeyboardInterrupt
+>>> 
+Python 2.7.5 (v2.7.5:ab05e7dd2788, May 13 2013, 13:18:45) 
+[GCC 4.2.1 (Apple Inc. build 5666) (dot 3)] on darwin
+Type "copyright", "credits" or "license()" for more information.
+>>> ================================ RESTART ================================
+>>> 
+>>> ================================ RESTART ================================
+>>> 
+>>> ================================ RESTART ================================
+>>> 
+>>> s
+[<class_demo.Circle object at 0x101761290>, <class_demo.Circle object at 0x101761250>]
+>>> ================================ RESTART ================================
+>>> 
+>>> repr(c)
+
+Traceback (most recent call last):
+  File "<pyshell#1>", line 1, in <module>
+    repr(c)
+NameError: name 'c' is not defined
+>>> ================================ RESTART ================================
+>>> 
+>>> repr(c)
+'Circle(10)'
+>>> s
+[Circle(10), Circle(12)]
+>>> c
+Circle(10)
+>>> ================================ RESTART ================================
+>>> 
+>>> repr(c)
+'Circle(10)'
+>>> ================================ RESTART ================================
+>>> 
+A circle with a radius of 10
+has an area of 314.15926535
+
+>>> ================================ RESTART ================================
+>>> 
+>>> ================================ RESTART ================================
+>>> 
+A circle with a radius of 10
+has an area of 314.159265359
+
+>>> c.__class__
+<class 'class_demo.Circle'>
+>>> c.__dict__
+{'radius': 10}
+>>> 
+>>> 
+>>> d = Circle(20)
+>>> 
+>>> c.__class__
+<class 'class_demo.Circle'>
+>>> c.__dict__
+{'radius': 10}
+>>> 
+>>> d.__class__
+<class 'class_demo.Circle'>
+>>> d.__dict__
+{'radius': 20}
+>>> 
+>>> d.__doc__
+'An advanced circle analytic toolkit'
+>>> Circle.__doc__
+'An advanced circle analytic toolkit'
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version 0.1
+A circle with a radius of 10
+has an area of 314.159265359
+
+>>> 
+>>> 
+>>> 
+>>> 11 + 22 == 33
+True
+>>> 
+>>> 1.1 + 2.2 == 3.3
+False
+>>> 1.1 + 2.2
+3.3000000000000003
+>>> 1.1 + 2.2 - 3.3
+4.440892098500626e-16
+>>> 
+>>> 
+>>> s = 1.1 + 2.2
+>>> t = 3.3
+>>> 
+>>> abs(s - t) < 0.00000001
+True
+>>> 
+>>> 
+>>> '1.1' == '1.1'
+True
+>>> '0.1' < '0.3'
+True
+>>> 
+>>> 
+>>> t = (0, 1)
+>>> s = (0, 3)
+>>> t <= s
+True
+>>> 
+>>> 
+>>> import sys
+>>> sys.version
+'2.7.5 (v2.7.5:ab05e7dd2788, May 13 2013, 13:18:45) \n[GCC 4.2.1 (Apple Inc. build 5666) (dot 3)]'
+>>> sys.version_info
+sys.version_info(major=2, minor=7, micro=5, releaselevel='final', serial=0)
+>>> sys.version_info.major
+2
+>>> tuple(sys.version_info)
+(2, 7, 5, 'final', 0)
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version (0, 1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 
+>>> (0, 7)
+(0, 7)
+>>> 
+>>> from collections import namedtuple
+>>> TestResult = namedtuple('TestResult', ['failed', 'attempted'])
+>>> 
+>>> r = TestResult(0, 7)
+>>> 
+>>> 
+>>> 
+>>> r
+TestResult(failed=0, attempted=7)
+>>> r[0]
+0
+>>> r[1]
+7
+>>> 
+>>> r.failed
+0
+>>> r.attempted
+7
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+>>> Circle.version
+Version(major=0, minor=1)
+>>> 
+>>> 
+>>> Circle.version.minor
+1
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+>>> circles
+[0.11787263650534652, 0.2386650291058554, 0.1660027909850944, 0.5511824137841572, 0.03965027673160415, 0.9931733671589851, 0.8512712052844034, 0.2491285130982217, 0.7235123672937841, 0.5981345348832312]
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+>>> circles
+[Circle(0.14623880372944487), Circle(0.9329085550274617), Circle(0.36363108439208924), Circle(0.38297684137982135), Circle(0.136782808139995), Circle(0.34040018548026396), Circle(0.12652450981825591), Circle(0.8072286297892501), Circle(0.23447339931339373), Circle(0.857223846378748)]
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+>>> circles
+[Circle(0.5550855081609122), Circle(0.5922115403869156), Circle(0.1080914551935187), Circle(0.33011027069160226), Circle(0.7732481511702146), Circle(0.7494078589579755), Circle(0.03419034126576037), Circle(0.35730094581841554), Circle(0.32735197036691666), Circle(0.4660031170533454)]
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+Using Jenny's number as a seed
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+Using Jenny's number as a seed
+[Circle(0.40224696110279223), Circle(0.5102471779215914), Circle(0.6637431122665531), Circle(0.8607166923395507), Circle(0.28094269977126785), Circle(0.6413941220751519), Circle(0.6472135534646176), Circle(0.22715569766295207), Circle(0.711696999899619), Circle(0.09115426983797148)]
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+Using Jenny's number as a seed
+[Circle(0.40224696110279223), Circle(0.5102471779215914), Circle(0.6637431122665531), Circle(0.8607166923395507), Circle(0.28094269977126785), Circle(0.6413941220751519), Circle(0.6472135534646176), Circle(0.22715569766295207), Circle(0.711696999899619), Circle(0.09115426983797148)]
+>>> c
+Circle(10)
+>>> c.area()
+314.1592653589793
+>>> [c.area() for c in circles]
+[0.5083179151495382, 0.8179205041298087, 1.384044097288627, 2.327396215536275, 0.24796213997951547, 1.2924085543325607, 1.3159672444054562, 0.16210527294445717, 1.591256324893598, 0.02610381037583005]
+>>> sum([c.area() for c in circles])
+9.673482079035665
+>>> sum([c.area() for c in circles]) / len(n)
+
+Traceback (most recent call last):
+  File "<pyshell#82>", line 1, in <module>
+    sum([c.area() for c in circles]) / len(n)
+TypeError: object of type 'int' has no len()
+>>> sum([c.area() for c in circles]) / len(circles)
+0.9673482079035665
+>>> 
+>>> 
+>>> 
+>>> 
+>>> 32 / 6
+5
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+Using Jenny's number as a seed
+>>> 32 / 6
+5
+>>> ================================ RESTART ================================
+>>> def average(seq):
+	return sum(seq) / len(seq)
+
+>>> average([10, 20, 60])
+30
+>>> average([10, 20, 61])
+30
+>>> from __future__ import division
+>>> 
+>>> def average(seq):
+	return sum(seq) / len(seq)
+
+>>> average([10, 20, 61])
+30.333333333333332
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+Using Jenny's number as a seed
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+Using Jenny's number as a seed
+A Circuitous(tm) Version(major=0, minor=1)
+The average area of 10 random circles is
+0.967348207904
+
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=1)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+Using Jenny's number as a seed
+A Circuitous(tm) Version(major=0, minor=1)
+The average area of 10 random circles is
+1.0
+
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=2)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+Using Jenny's number as a seed
+A Circuitous(tm) Version(major=0, minor=2)
+The average area of 10 random circles is
+1.0
+
+>>> circles
+[Circle(0.1), Circle(0.2), Circle(0.7)]
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=2)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+Using Jenny's number as a seed
+A Circuitous(tm) Version(major=0, minor=2)
+The average area of 10 random circles is
+1.0
+
+Rubber sheet analytics
+A circle with a cut of 0.1
+has a perimeter of 0.628318530718
+and a cold area of 0.0314159265359
+
+A circle with a cut of 0.2
+has a perimeter of 1.25663706144
+and a cold area of 0.125663706144
+
+A circle with a cut of 0.7
+has a perimeter of 4.39822971503
+and a cold area of 1.53938040026
+
+>>> ================================ RESTART ================================
+>>> 
+Tutorial for Circuitous(tm) version Version(major=0, minor=2)
+A circle with a radius of 10
+has an area of 314.159265359
+
+Grant proposal
+Using Jenny's number as a seed
+A Circuitous(tm) Version(major=0, minor=2)
+The average area of 10 random circles is
+1.0
+
+Rubber sheet analytics
+A circle with a cut of 0.1
+has a perimeter of 0.628318530718
+and a cold area of 0.0314159265359
+and a warm area of 0.0380132711084
+
+A circle with a cut of 0.2
+has a perimeter of 1.25663706144
+and a cold area of 0.125663706144
+and a warm area of 0.152053084434
+
+A circle with a cut of 0.7
+has a perimeter of 4.39822971503
+and a cold area of 1.53938040026
+and a warm area of 1.86265028431
+
+>>> 
