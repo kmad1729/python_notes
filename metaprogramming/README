@@ -2,4 +2,16 @@ notes from python3 metaprogramming video:
 https://www.youtube.com/watch?v=sPiWg5jSoZI
 
 
-code --> statements, functions, classes
+* code --> statements, functions, classes
+* keyword-only arguments.
+* limitations of "debugmethods" on Classes
+
+    @debugmethods
+    class BrokenSpam:
+        @classmethod        # Not wrapped
+        def grok(cls):
+            pass
+
+        @staticmethod       
+        def bar():          # Not wrapped
+            pass
