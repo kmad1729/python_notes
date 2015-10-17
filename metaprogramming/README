@@ -15,3 +15,48 @@ https://www.youtube.com/watch?v=sPiWg5jSoZI
         @staticmethod       
         def bar():          # Not wrapped
             pass
+
+* Creation of a class
+    class Spam(Base):
+        def __init__(self, name):
+            self.name = name
+        def bar(self):
+            print "I'm Spam.bar"
+
+    - Components of the class:
+        Name ("Spam")
+        Base classes (Base,)
+        Functions(__init__, bar)
+
+    Step 1)
+        Body of class is isolated to lets say body
+        body = '''
+            def __init__(self, name):
+                self.name = name
+            def bar(self):
+                print "I'm Spam.bar"
+        '''
+    Step 2) 
+        class dictionary is created
+        clsdict = type.__prepare__('Spam', (Base,))
+    Step 3)
+        exec(body, globals(), clsdict)
+    Step 4)
+        Spam = type('Spam', (Base, ), clsdict)
+
+* Metaclasses
+
+    Metaclass make a new class of "type" i.e. changes something in step 4
+    Metaclasses get info about class definitions at the time of definition
+    Metaclasses propogate down hierarchies!
+    Difference between Metaclass and Class Decorator:
+        Metaclass can capture info about the class before it is even created
+        Decorator comes into place after a class is fully formed
+    
+* __new__ vs __init__
+    You use __new__ than __init__ when you want to puts something in a class dictionary to affect how 
+    class is created. e.g. __slots___
+    Something you put in class before you call type
+
+* 
+

@@ -5,6 +5,8 @@
 /include
 /lib/python*/*
 !/lib/python*/site-packages
+pip-selfcheck.json
+share/
 
 
 #

@@ -6,7 +6,7 @@ class Structure:
         for name, val in zip(self._fields, args):
             setattr(self, name, val)
 
-class Sock(Structure):
+class Stock(Structure):
     _fields = ['name', 'shares', 'price']
 
 class Point(Structure):

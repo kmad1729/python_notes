@@ -28,7 +28,7 @@ def debugmethods(cls):
     for attr_str, attr_value in vars(cls).items():
         if callable(attr_value):
             print("this is decoration!")
-            setattr(cls, attr_str, debug(attr_value))
+            setattr(cls, attr_str, debug(attr_value, prefix = "+++"))
 
     return cls
 
