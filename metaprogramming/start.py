@@ -1,5 +1,7 @@
 #start.py
 
+
+
 class Structure:
     _fields = []
     def __init__(self, *args):
@@ -15,3 +17,7 @@ class Point(Structure):
 class Address(Structure):
     _fields = ['hostname', 'port']
    
+from inspect import Signature, signature
+
+print('(signature(Stock)) -->', end = " ")
+print(signature(Stock))
