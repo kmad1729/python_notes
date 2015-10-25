@@ -1,6 +1,4 @@
-#start.py
-
-
+#structly_with_inspect.py
 
 class Structure:
     _fields = []
