@@ -5,7 +5,6 @@ from functools import  wraps, partial
 def debug(func=None, *, prefix = ''):
     if func is None:
         return partial(debug, prefix = prefix)
-    print('func adfadfad', func.__name__)
     #func is function to be wrapped
     msg = prefix + func.__qualname__ + prefix
     @wraps(func)
@@ -14,4 +13,20 @@ def debug(func=None, *, prefix = ''):
         return func(*args, **kwargs)
     return wrapper
 
-#Done till 19:00
+def debugmethods(cls):
+    #cls is a class
+    for key, val in vars(cls).items():
+        if callable(val):
+            setattr(cls, key, debug(val))
+
+    return cls
+
+def debugattr(cls):
+    orig_getattribute = cls.__getattribute__
+
+    def __getattribute__(self, name):
+        print("Get:", name)
+        return orig_getattribute(self, name)
+
+    cls.__getattribute__ = __getattribute__
+    return cls
