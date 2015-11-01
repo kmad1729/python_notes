@@ -13,6 +13,18 @@ class Descriptor:
         print("Delete ", self.name)
         del instance.__dict__[self.name]
 
+class Typed(Descriptor):
+    ty = object
+    def __set__(self, instance, value):
+        if not isinstance(value, self.ty):
+            raise TypeError("Not %s" % self.ty)
+
+class Integer(Typed):
+    ty = int
+class String(Typed):
+    ty = str
+class Float(Typed):
+    ty = float
 
 def make_signature(fields):
     return Signature(
@@ -34,5 +46,8 @@ class Structure(metaclass = StrucMeta):
 
 class Stock(Structure):
     _fields = ['name', 'shares', 'price']
+    name = String('name')
+    shares = Integer('shares')
+    price = Float('price')
 
 s1 = Stock('GOOG', 100, 490.1)
