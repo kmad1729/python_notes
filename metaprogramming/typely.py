@@ -17,7 +17,7 @@ class Typed(Descriptor):
     ty = object
     def __set__(self, instance, value):
         if not isinstance(value, self.ty):
-            raise TypeError("Not %s" % self.ty)
+            raise TypeError("Expected %s" % self.ty)
         super().__set__(instance, value)
 
 class Integer(Typed):
@@ -26,6 +26,18 @@ class String(Typed):
     ty = str
 class Float(Typed):
     ty = float
+
+class Positive(Descriptor):
+    def __set__(self, instance, val):
+        if val < 0:
+            raise ValueError("%s must be >= 0" % val)
+        super().__set__(instance, val)
+
+class PositiveInteger(Integer, Positive):   #mixin class
+    pass
+
+class PositiveFloat(Float, Positive):
+    pass
 
 def make_signature(fields):
     return Signature(
@@ -48,7 +60,7 @@ class Structure(metaclass = StrucMeta):
 class Stock(Structure):
     _fields = ['name', 'shares', 'price']
     name = String('name')
-    shares = Integer('shares')
-    price = Float('price')
+    shares = PositiveInteger('shares')
+    price = PositiveFloat('price')
 
 s1 = Stock('GOOG', 100, 490.1)
