@@ -18,6 +18,7 @@ class Typed(Descriptor):
     def __set__(self, instance, value):
         if not isinstance(value, self.ty):
             raise TypeError("Not %s" % self.ty)
+        super().__set__(instance, value)
 
 class Integer(Typed):
     ty = int
