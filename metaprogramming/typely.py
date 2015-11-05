@@ -18,7 +18,34 @@ class Typed(Descriptor):
     def __set__(self, instance, value):
         if not isinstance(value, self.ty):
             raise TypeError("Expected %s" % self.ty)
-        super().__set__(instance, value)
+        #not the parent but next class on mro list
+        super().__set__(instance, value)    
+
+#here is a good use of keyword only arguments
+class Sized(Descriptor):
+    
+    def __init__(self, *args, maxlen, **kwargs):
+        self.maxlen = maxlen
+        super().__init__(*args, **kwargs)
+
+    def __set__(self, instance, val):
+        if len(val) > self.maxlen:
+            raise ValueError('%s exceeds the maximum len %s' % \
+                    (val, self.maxlen))
+        super().__set__(instance, val)
+
+import re
+class Regex(Descriptor):
+    def __init__(self, *args, pat, **kwargs):
+        self.pat = re.compile(pat)
+        super().__init__(*args, **kwargs)
+
+    def __set__(self, instance, val):
+        if not self.pat.match(val):
+            raise ValueError("%s does not match pattern %s" % \
+                    (val, self.pat))
+        super().__set__(instance, val)
+
 
 class Integer(Typed):
     ty = int
@@ -36,6 +63,8 @@ class Positive(Descriptor):
 class PositiveInteger(Integer, Positive):   #mixin class
     pass
 
+class SizedRegexString(Sized, Regex, String):
+    pass
 class PositiveFloat(Float, Positive):
     pass
 
@@ -59,7 +88,7 @@ class Structure(metaclass = StrucMeta):
 
 class Stock(Structure):
     _fields = ['name', 'shares', 'price']
-    name = String('name')
+    name = SizedRegexString('name', maxlen = 8, pat = r'[A-Z]+')
     shares = PositiveInteger('shares')
     price = PositiveFloat('price')
 
