@@ -24,6 +24,7 @@ class TestChangePossible(unittest.TestCase):
         self.assertTrue(is_change_possible([2], 4))
         self.assertTrue(is_change_possible([2], 110))
         self.assertFalse(is_change_possible([2], 5))
+        self.assertFalse(is_change_possible([2], 10000000000000))
         self.assertTrue(is_change_possible([3, 7], 10))
         self.assertFalse(is_change_possible([3, 7], 11))
         self.assertFalse(is_change_possible([3, 7], 8))
