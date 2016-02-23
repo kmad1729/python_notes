@@ -26,4 +26,4 @@ def _get_suff(i):
         return "th"
 
 for i in range(1, 21):
-    print("{}{} fib number = {}".format(i, _get_suff(i), get_nth_fib(i)))
+    print("{:2}{} fib number = {}".format(i, _get_suff(i), get_nth_fib(i)))
