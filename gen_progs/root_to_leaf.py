@@ -2,6 +2,8 @@
 
 'print all the paths from node to leaves in a binary tree'
 
+from collections import deque
+
 class BNode:
     def __init__(self, data):
         self.data = data
@@ -51,7 +53,31 @@ class BNode:
         return 0
 
     def print_alternate_order(self):
-        pass
+        depth = self.depth()
+        even_q = deque()
+        odd_q = deque()
+        if depth == 0:
+            return
+        even_q.append(self)
+        for lvl in range(depth):
+            if lvl % 2 == 0:
+                while(len(even_q) != 0):
+                    node = even_q.popleft()
+                    if node.left_child != None:
+                        odd_q.append(node.left_child)
+                    if node.right_child != None:
+                        odd_q.append(node.right_child)
+                    print(node.data, end = " ")
+            else:
+                while(len(odd_q) != 0):
+                    node = odd_q.pop()
+                    if node.right_child != None:
+                        even_q.appendleft(node.right_child)
+                    if node.left_child != None:
+                        even_q.appendleft(node.left_child)
+                    print(node.data, end = " ")
+        print()
+
 
 
 
@@ -77,6 +103,9 @@ class BTree:
         if self.root != None:
             return self.root.depth()
 
+    def print_alternate_order(self):
+        if self.root != None:
+            self.root.print_alternate_order()
 
 
 class BSTree(BTree):
@@ -84,7 +113,7 @@ class BSTree(BTree):
     def _insert_at_node(node, data):
         if node == None:
             return BNode(data)
-        if data < node.data:
+        if data <= node.data:
             node.left_child = BSTree._insert_at_node(node.left_child, data)
         else:
             node.right_child = BSTree._insert_at_node(node.right_child, data)
@@ -119,5 +148,8 @@ b1.print_node_to_leaf()
 
 print("depth of tree = ", b1.depth())
 
-
+print('*' * 20)
+print("alternate tree print -->")
+b1.print_alternate_order()
+print('*' * 20)
 
