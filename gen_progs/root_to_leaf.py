@@ -37,6 +37,23 @@ class BNode:
                 return
             curr_list.pop()
 
+    def depth(self):
+        if self != None:
+            if self.left_child != None:
+                ldepth = self.left_child.depth()
+            else:
+                ldepth = 0
+            if self.right_child != None:
+                rdepth = self.right_child.depth()
+            else:
+                rdepth = 0
+            return 1 + max(ldepth, rdepth)
+        return 0
+
+    def print_alternate_order(self):
+        pass
+
+
 
 class BTree:
     def __init__(self):
@@ -55,6 +72,10 @@ class BTree:
             print()
         else:
             self.root.print_node_to_leaf([])
+
+    def depth(self):
+        if self.root != None:
+            return self.root.depth()
 
 
 
@@ -95,6 +116,8 @@ b1.insert(50)
 b1.print_in_order()
 b1.print_pre_order()
 b1.print_node_to_leaf()
+
+print("depth of tree = ", b1.depth())
 
 
 
